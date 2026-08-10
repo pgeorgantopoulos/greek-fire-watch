@@ -12,6 +12,8 @@ from typing import Any
 
 import feedparser
 
+from .errors import SourceSkipped
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,16 +24,11 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
 
     url = rss_cfg.get("url")
     if not url:
-        logger.warning(
-            "Civil Protection RSS source enabled but sources.civil_protection_rss.url "
-            "is not set — skipping."
-        )
-        return []
+        raise SourceSkipped("sources.civil_protection_rss.url is not set")
 
     feed = feedparser.parse(url)
     if feed.bozo and not feed.entries:
-        logger.warning("Failed to parse Civil Protection RSS feed: %s", feed.get("bozo_exception"))
-        return []
+        raise RuntimeError(f"Failed to parse Civil Protection RSS feed: {feed.get('bozo_exception')}")
 
     keywords = [k.lower() for k in rss_cfg.get("keyword_filter", [])]
     max_items = rss_cfg.get("max_items", 30)

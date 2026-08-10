@@ -22,6 +22,8 @@ from typing import Any
 import requests
 from shapely.geometry import shape
 
+from .errors import SourceSkipped
+
 logger = logging.getLogger(__name__)
 
 
@@ -33,10 +35,7 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
     base_url = effis_cfg.get("base_url")
     type_name = effis_cfg.get("type_name")
     if not base_url or not type_name:
-        logger.warning(
-            "EFFIS source enabled but sources.effis.base_url/type_name is not set — skipping."
-        )
-        return []
+        raise SourceSkipped("sources.effis.base_url/type_name is not set")
 
     bbox = config["region"]["bbox"]
     params = {
@@ -53,8 +52,7 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
 
     body = response.text
     if body.lstrip().startswith("<"):
-        logger.warning("EFFIS WFS returned a non-JSON (likely error) response: %s", body[:300])
-        return []
+        raise RuntimeError(f"EFFIS WFS returned a non-JSON (likely error) response: {body[:300]}")
 
     geojson = response.json()
 

@@ -17,6 +17,7 @@ from zoneinfo import ZoneInfo
 from .config import resolve_path
 from .geocode import Geocoder, build_geocoder
 from .sources import civil_protection_rss, effis, firms
+from .sources.errors import SourceSkipped
 
 logger = logging.getLogger(__name__)
 
@@ -37,23 +38,37 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
     source_status: dict[str, str] = {}
 
     for name, fetcher in FETCHERS.items():
+        if not _source_enabled(config, name):
+            source_status[name] = "disabled"
+            continue
         try:
             results = fetcher(config)
             for item in results:
                 item["region"] = geocoder.lookup(item["lat"], item["lon"])
             detections.extend(results)
-            source_status[name] = "ok" if results or _source_enabled(config, name) else "disabled"
+            source_status[name] = "ok"
+        except SourceSkipped as exc:
+            logger.warning("%s skipped: %s", name, exc)
+            source_status[name] = f"skipped: {exc}"
         except Exception as exc:  # noqa: BLE001 - a bad source must not kill the report
             logger.exception("Failed to fetch %s", name)
             source_status[name] = f"error: {exc}"
 
-    try:
-        news = civil_protection_rss.fetch(config)
-        source_status["CivilProtectionRSS"] = "ok" if news or _source_enabled(config, "civil_protection_rss") else "disabled"
-    except Exception as exc:  # noqa: BLE001
-        logger.exception("Failed to fetch Civil Protection RSS")
+    if not _source_enabled(config, "civil_protection_rss"):
         news = []
-        source_status["CivilProtectionRSS"] = f"error: {exc}"
+        source_status["CivilProtectionRSS"] = "disabled"
+    else:
+        try:
+            news = civil_protection_rss.fetch(config)
+            source_status["CivilProtectionRSS"] = "ok"
+        except SourceSkipped as exc:
+            logger.warning("CivilProtectionRSS skipped: %s", exc)
+            news = []
+            source_status["CivilProtectionRSS"] = f"skipped: {exc}"
+        except Exception as exc:  # noqa: BLE001
+            logger.exception("Failed to fetch Civil Protection RSS")
+            news = []
+            source_status["CivilProtectionRSS"] = f"error: {exc}"
 
     detections.sort(key=lambda d: d.get("acquired_at") or "", reverse=True)
 

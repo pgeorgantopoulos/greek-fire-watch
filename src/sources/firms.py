@@ -13,6 +13,8 @@ from typing import Any
 
 import requests
 
+from .errors import SourceSkipped
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,11 +25,7 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
 
     api_key = firms_cfg.get("api_key")
     if not api_key:
-        logger.warning(
-            "FIRMS source enabled but %s is not set — skipping.",
-            firms_cfg.get("api_key_env", "FIRMS_MAP_KEY"),
-        )
-        return []
+        raise SourceSkipped(f"{firms_cfg.get('api_key_env', 'FIRMS_MAP_KEY')} is not set")
 
     bbox = config["region"]["bbox"]
     area = f"{bbox['west']},{bbox['south']},{bbox['east']},{bbox['north']}"
