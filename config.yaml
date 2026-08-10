@@ -1,0 +1,70 @@
+# Greek Fire Watch — configuration
+#
+# Fill in the placeholder URLs/keys below once you have the exact endpoints.
+# Nothing here is a real, working credential — env vars are used for secrets.
+
+region:
+  name: Greece
+  # Bounding box: west, south, east, north (WGS84 lon/lat)
+  bbox:
+    west: 19.0
+    south: 34.5
+    east: 29.7
+    north: 41.8
+  timezone: Europe/Athens
+
+sources:
+  firms:
+    enabled: true
+    # NASA FIRMS area API: https://firms.modaps.eosdis.gov/api/area/csv/{MAP_KEY}/{SENSOR}/{AREA}/{DAY_RANGE}
+    # Get a free MAP_KEY at https://firms.modaps.eosdis.gov/api/map_key/
+    base_url: "https://firms.modaps.eosdis.gov/api/area/csv"
+    api_key_env: FIRMS_MAP_KEY
+    # One of: VIIRS_SNPP_NRT, VIIRS_NOAA20_NRT, VIIRS_NOAA21_NRT, MODIS_NRT
+    sensor: VIIRS_SNPP_NRT
+    day_range: 1
+    # Optional deep link template for "view on FIRMS map"; {lat}/{lon} are substituted.
+    map_link_template: ""
+
+  effis:
+    enabled: true
+    # Undocumented OGC/WFS service behind the EFFIS "Current Situation" viewer
+    # (forest-fire.emergency.copernicus.eu). Found by tracing the viewer app's
+    # allowed API hosts (its Content-Security-Policy) to this OWS endpoint.
+    # As of 2026-08-10 this service was returning backend errors for every
+    # layer ("OracleSpatial... Connection failure") — an outage, not a bad
+    # request. Since it was down, the exact GeoJSON property names for this
+    # layer are unconfirmed; src/sources/effis.py guesses common candidates
+    # and should be revisited once a working response can be inspected.
+    base_url: "https://ies-ows.jrc.ec.europa.eu/effis/ows"
+    type_name: "ms:ercc.hs_24hrs_point"  # fire hotspots, last 24h
+    map_link_template: ""
+
+  civil_protection_rss:
+    enabled: true
+    # Greek Civil Protection "Archive of Maps" feed. Note: this is the DAILY
+    # FIRE-RISK-FORECAST map archive (Ημερήσιος Χάρτης Πρόβλεψης Κινδύνου
+    # Πυρκαγιάς), one item per day linking to a risk-level map image — NOT
+    # incident/announcement news. Each item has no description text, just a
+    # title, link, and an image enclosure. Swap this URL if/when a proper
+    # announcements feed is identified.
+    url: "https://civilprotection.gov.gr/cp_hartes.rss"
+    # Only keep entries whose title/summary contain at least one of these (case-insensitive).
+    # Leave empty to keep all entries from the feed.
+    keyword_filter:
+      - "πυρκαγιά"
+      - "πυρκαγιάς"
+      - "δασική πυρκαγιά"
+      - "φωτιά"
+      - "πυρκαγιές"
+    max_items: 30
+
+geocoding:
+  boundaries_file: data/boundaries/greece_regions.geojson
+  # Property key in the boundaries GeoJSON that holds the human-readable region/municipality name.
+  name_field: name
+  fallback_name: "Unknown region"
+
+output:
+  reports_dir: reports
+  site_dir: docs

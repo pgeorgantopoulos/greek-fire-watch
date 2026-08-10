@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>Sample Civil Protection Feed</title>
+  <item>
+    <title>Δασική πυρκαγιά στην Πάρνηθα</title>
+    <link>https://example.org/news/1</link>
+    <description>Ενεργή πυρκαγιά με ισχυρές δυνάμεις της Πυροσβεστικής.</description>
+    <pubDate>Sun, 10 Aug 2026 08:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Ανακοίνωση για πλημμύρες στη Θεσσαλία</title>
+    <link>https://example.org/news/2</link>
+    <description>Έκτακτο δελτίο καιρού για βροχοπτώσεις.</description>
+    <pubDate>Sun, 10 Aug 2026 07:00:00 GMT</pubDate>
+  </item>
+</channel>
+</rss>

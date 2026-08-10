@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [19.0, 34.5],
+            [29.7, 34.5],
+            [29.7, 41.8],
+            [19.0, 41.8],
+            [19.0, 34.5]
+          ]
+        ]
+      }
+    }
+  ]
+}
