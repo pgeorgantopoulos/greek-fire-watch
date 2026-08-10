@@ -18,7 +18,7 @@ sources:
     enabled: true
     # NASA FIRMS area API: https://firms.modaps.eosdis.gov/api/area/csv/{MAP_KEY}/{SENSOR}/{AREA}/{DAY_RANGE}
     # Get a free MAP_KEY at https://firms.modaps.eosdis.gov/api/map_key/
-    base_url: "https://firms.modaps.eosdis.gov/api/area/csv"
+    base_url: "https://firms.modaps.eosdis.nasa.gov/api/area/csv"
     api_key_env: FIRMS_MAP_KEY
     # One of: VIIRS_SNPP_NRT, VIIRS_NOAA20_NRT, VIIRS_NOAA21_NRT, MODIS_NRT
     sensor: VIIRS_SNPP_NRT

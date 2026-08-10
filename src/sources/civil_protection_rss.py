@@ -16,6 +16,11 @@ from .errors import SourceSkipped
 
 logger = logging.getLogger(__name__)
 
+# Some sites respond differently (or block) feedparser's default urllib-based
+# user-agent than a browser-like one — pin an explicit UA rather than risk an
+# opaque XML parse failure caused by a block/challenge page instead of the feed.
+USER_AGENT = "Mozilla/5.0 (compatible; GreekFireWatch/1.0; +https://github.com/pgeorgantopoulos/greek-fire-watch)"
+
 
 def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
     rss_cfg = config["sources"]["civil_protection_rss"]
@@ -26,9 +31,12 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
     if not url:
         raise SourceSkipped("sources.civil_protection_rss.url is not set")
 
-    feed = feedparser.parse(url)
+    feed = feedparser.parse(url, agent=USER_AGENT)
     if feed.bozo and not feed.entries:
-        raise RuntimeError(f"Failed to parse Civil Protection RSS feed: {feed.get('bozo_exception')}")
+        status = feed.get("status")
+        raise RuntimeError(
+            f"Failed to parse Civil Protection RSS feed (HTTP status={status}): {feed.get('bozo_exception')}"
+        )
 
     keywords = [k.lower() for k in rss_cfg.get("keyword_filter", [])]
     max_items = rss_cfg.get("max_items", 30)
