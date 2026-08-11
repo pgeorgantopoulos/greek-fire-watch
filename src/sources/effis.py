@@ -19,9 +19,9 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-import requests
 from shapely.geometry import shape
 
+from . import http
 from .errors import SourceSkipped
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
         "bbox": f"{bbox['west']},{bbox['south']},{bbox['east']},{bbox['north']},EPSG:4326",
     }
 
-    response = requests.get(base_url, params=params, timeout=30)
+    response = http.get(base_url, params=params)
     response.raise_for_status()
 
     body = response.text

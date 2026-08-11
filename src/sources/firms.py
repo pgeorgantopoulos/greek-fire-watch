@@ -8,14 +8,10 @@ from __future__ import annotations
 
 import csv
 import io
-import logging
 from typing import Any
 
-import requests
-
+from . import http
 from .errors import SourceSkipped
-
-logger = logging.getLogger(__name__)
 
 
 def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
@@ -34,13 +30,15 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
 
     url = f"{firms_cfg['base_url']}/{api_key}/{sensor}/{area}/{day_range}"
 
-    response = requests.get(url, timeout=30)
+    response = http.get(url)
     response.raise_for_status()
 
-    # FIRMS returns a one-line error message (not CSV) on bad key/params.
-    if "Invalid" in response.text[:200] or "Error" in response.text[:200]:
-        logger.warning("FIRMS API returned an error: %s", response.text[:200])
-        return []
+    # FIRMS returns HTTP 200 with a one-line error message (not CSV) on a bad
+    # key, an unrecognized sensor, or an exceeded transaction limit — treat
+    # that as a failure instead of silently reporting zero detections.
+    first_line = response.text[:200]
+    if "Invalid" in first_line or "Error" in first_line:
+        raise RuntimeError(f"FIRMS API returned an error: {first_line!r}")
 
     reader = csv.DictReader(io.StringIO(response.text))
     detections = []

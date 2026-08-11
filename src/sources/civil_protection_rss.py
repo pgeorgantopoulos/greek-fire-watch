@@ -12,14 +12,10 @@ from typing import Any
 
 import feedparser
 
+from . import http
 from .errors import SourceSkipped
 
 logger = logging.getLogger(__name__)
-
-# Some sites respond differently (or block) feedparser's default urllib-based
-# user-agent than a browser-like one — pin an explicit UA rather than risk an
-# opaque XML parse failure caused by a block/challenge page instead of the feed.
-USER_AGENT = "Mozilla/5.0 (compatible; GreekFireWatch/1.0; +https://github.com/pgeorgantopoulos/greek-fire-watch)"
 
 
 def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
@@ -31,7 +27,20 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
     if not url:
         raise SourceSkipped("sources.civil_protection_rss.url is not set")
 
-    feed = feedparser.parse(url, agent=USER_AGENT)
+    if url.startswith("http://") or url.startswith("https://"):
+        # feedparser's own fetch path has no timeout and can hang
+        # indefinitely on an unresponsive server — fetch through the shared
+        # bounded-timeout/retry session instead and hand it the bytes.
+        # Some sites respond differently (or block) feedparser's default
+        # urllib-based user-agent than a browser-like one — the shared
+        # session pins an explicit UA rather than risk an opaque XML parse
+        # failure caused by a block/challenge page instead of the feed.
+        response = http.get(url)
+        response.raise_for_status()
+        feed = feedparser.parse(response.content)
+    else:
+        feed = feedparser.parse(url)
+
     if feed.bozo and not feed.entries:
         status = feed.get("status")
         raise RuntimeError(
