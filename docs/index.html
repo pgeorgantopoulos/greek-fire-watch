@@ -108,7 +108,7 @@
     <h1>🔥 Greek Fire Watch</h1>
     <div class="meta">
       Daily report for <strong>2026-08-12</strong> (Greece)
-      &middot; generated 2026-08-12T10:12:03.469761+03:00
+      &middot; generated 2026-08-12T12:51:57.974497+03:00
       &middot; <a href="archive/index.html">archive</a>
     </div>
     <div class="status-row">
@@ -120,12 +120,12 @@
       
         
         <span class="status-badge error">
-          EFFIS: error: 400 Client Error: Internal Server Error for url: https://ies-ows.jrc.ec.europa.eu/effis/ows?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeName=ms%3Aercc.hs_24hrs_point&amp;outputFormat=application%2Fjson&amp;bbox=19.0%2C34.5%2C29.7%2C41.8%2CEPSG%3A4326
+          EFFIS: error: HTTPSConnectionPool(host=&#39;ies-ows.jrc.ec.europa.eu&#39;, port=443): Max retries exceeded with url: /effis/ows?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeName=ms%3Aercc.hs_24hrs_point&amp;outputFormat=application%2Fjson&amp;bbox=19.0%2C34.5%2C29.7%2C41.8%2CEPSG%3A4326 (Caused by ConnectTimeoutError(&lt;HTTPSConnection(host=&#39;ies-ows.jrc.ec.europa.eu&#39;, port=443) at 0x7f285a918770&gt;, &#39;Connection to ies-ows.jrc.ec.europa.eu timed out. (connect timeout=30)&#39;))
         </span>
       
         
         <span class="status-badge error">
-          CivilProtectionRSS: error: 403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss
+          CivilProtectionRSS: error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: &lt;HTML&gt;&lt;HEAD&gt; &lt;TITLE&gt;Access Denied&lt;/TITLE&gt; &lt;/HEAD&gt;&lt;BODY&gt; &lt;H1&gt;Access Denied&lt;/H1&gt;   You don&#39;t have permission to access &#34;http&amp;#58;&amp;#47;&amp;#47;civilprotection&amp;#46;gov&amp;#46;gr&amp;#47;cp&amp;#95;hartes&amp;#46;rss&#34; on this server.&lt;P&gt; Reference&amp;#32;&amp;#35;18&amp;#46;119eca17&amp;#46;1786528446&amp;#46;8b987f04 &lt;P&gt;https&amp;#58;&amp;#47;&amp;#47;
         </span>
       
     </div>
@@ -135,8 +135,13 @@
     <h2>Summary</h2>
     <div class="cards">
       <div class="card">
-        <div class="num">0</div>
+        <div class="num">23</div>
         <div class="label">Active fire detections</div>
+      </div>
+      
+      <div class="card">
+        <div class="num">23</div>
+        <div class="label">from FIRMS</div>
       </div>
       
       <div class="card">
@@ -144,6 +149,10 @@
         <div class="label">Civil Protection news items</div>
       </div>
     </div>
+    
+    <p style="margin-top:1rem; color: var(--muted); font-size: 0.9rem;">
+      Most affected: Greece (placeholder dataset — replace with real regions/municipalities) (23)
+    </p>
     
   </section>
 
@@ -155,11 +164,11 @@
         <div class="label">Days tracked</div>
       </div>
       <div class="card">
-        <div class="num">52</div>
+        <div class="num">75</div>
         <div class="label">All-time detections</div>
       </div>
       <div class="card">
-        <div class="num">17.3</div>
+        <div class="num">25.0</div>
         <div class="label">Avg detections / day</div>
       </div>
     </div>
@@ -191,10 +200,10 @@
           
           <text class="axis-label" x="628.0" y="212" text-anchor="middle">08-12</text>
           
-          <path class="area" d="M 36.0,100.48 L 332.0,192.0 L 628.0,192.0 L 628.0,192 L 36.0,192 Z"></path>
-          <path class="line" d="M 36.0,100.48 L 332.0,192.0 L 628.0,192.0"></path>
+          <path class="area" d="M 36.0,100.48 L 332.0,192.0 L 628.0,151.52 L 628.0,192 L 36.0,192 Z"></path>
+          <path class="line" d="M 36.0,100.48 L 332.0,192.0 L 628.0,151.52"></path>
           
-          <text class="end-label" x="622.0" y="182.0" text-anchor="end">0</text>
+          <text class="end-label" x="622.0" y="141.52" text-anchor="end">23</text>
           
           <circle class="dot" cx="36.0" cy="100.48"></circle>
           <circle class="hit" cx="36.0" cy="100.48" r="14" data-date="2026-08-10" data-total="52" tabindex="0"></circle>
@@ -202,8 +211,8 @@
           <circle class="dot" cx="332.0" cy="192.0"></circle>
           <circle class="hit" cx="332.0" cy="192.0" r="14" data-date="2026-08-11" data-total="0" tabindex="0"></circle>
           
-          <circle class="dot" cx="628.0" cy="192.0"></circle>
-          <circle class="hit" cx="628.0" cy="192.0" r="14" data-date="2026-08-12" data-total="0" tabindex="0"></circle>
+          <circle class="dot" cx="628.0" cy="151.52"></circle>
+          <circle class="hit" cx="628.0" cy="151.52" r="14" data-date="2026-08-12" data-total="23" tabindex="0"></circle>
           
           <line class="crosshair" id="trend-crosshair" y1="16" y2="192"></line>
         </svg>
@@ -252,7 +261,7 @@
 
     
     <p style="margin-top:1rem; color: var(--muted); font-size: 0.9rem;">
-      All-time most affected: Greece (placeholder dataset — replace with real regions/municipalities) (52)
+      All-time most affected: Greece (placeholder dataset — replace with real regions/municipalities) (75)
     </p>
     
 
@@ -267,8 +276,8 @@
             
             <tr>
               <td><a href="archive/2026-08-12.html">2026-08-12</a></td>
-              <td>0</td>
-              <td>—</td>
+              <td>23</td>
+              <td>FIRMS: 23</td>
               <td>0</td>
             </tr>
             
@@ -295,7 +304,300 @@
   <section>
     <h2>Active fire detections</h2>
     
-    <p class="empty">No active fire detections reported for this run.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Region</th>
+            <th>Coordinates</th>
+            <th>Acquired</th>
+            <th>Confidence</th>
+            <th>FRP / Area (ha)</th>
+            <th>Map</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>38.7370, 26.9411</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.91</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>39.0930, 27.5149</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.95</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>39.8644, 26.2459</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.62</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>40.0869, 20.5031</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.84</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>40.6633, 19.7514</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>7.09</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>40.6643, 19.7470</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>7.09</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>40.6998, 22.9503</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>1.35</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.0221, 28.5538</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>1.26</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.0230, 28.5543</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.83</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.4130, 22.9025</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>1.36</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.5005, 19.7411</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.81</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.5820, 21.2267</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.03</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.5841, 21.2371</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>1.85</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7804, 20.2462</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.6</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7812, 20.2422</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>0.74</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7842, 20.2482</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.49</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7851, 20.2441</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.5</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7889, 20.2459</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.5</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7897, 20.2421</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.5</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7905, 20.2386</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>1.64</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7944, 20.2402</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.46</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7952, 20.2367</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.46</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+          <tr>
+            <td>FIRMS</td>
+            <td>Greece (placeholder dataset — replace with real regions/municipalities)</td>
+            <td>41.7991, 20.2382</td>
+            <td>2026-08-12T01:13:00Z</td>
+            <td>n</td>
+            <td>2.46</td>
+            <td>
+              —
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
     
   </section>
 
