@@ -23,6 +23,12 @@ DEFAULT_TIMEOUT = 30
 def _build_session() -> requests.Session:
     session = requests.Session()
     session.headers["User-Agent"] = USER_AGENT
+    # A couple of Greek government sites sit behind bot filtering that keys
+    # off "too minimal to be a browser" request shapes as much as the UA
+    # string itself; a plain Accept/Accept-Language pair is what's missing
+    # from requests' defaults.
+    session.headers["Accept"] = "*/*"
+    session.headers["Accept-Language"] = "el,en;q=0.8"
     retry = Retry(
         total=3,
         backoff_factor=1.0,

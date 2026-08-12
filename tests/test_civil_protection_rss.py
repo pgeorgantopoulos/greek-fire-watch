@@ -1,5 +1,8 @@
 from pathlib import Path
 
+import pytest
+import requests
+
 from src.sources import civil_protection_rss
 
 FIXTURE = Path(__file__).parent / "fixtures" / "sample_rss.xml"
@@ -33,3 +36,21 @@ def test_disabled_source_returns_empty_list():
     config = _config([])
     config["sources"]["civil_protection_rss"]["enabled"] = False
     assert civil_protection_rss.fetch(config) == []
+
+
+class _FakeForbiddenResponse:
+    status_code = 403
+    text = "<html><body>Access Denied</body></html>"
+
+    def raise_for_status(self):
+        raise requests.HTTPError("403 Client Error: Forbidden for url: https://example.test/feed.rss")
+
+
+def test_http_error_includes_response_body_snippet(monkeypatch):
+    monkeypatch.setattr(civil_protection_rss.http, "get", lambda url, **kw: _FakeForbiddenResponse())
+
+    config = _config([])
+    config["sources"]["civil_protection_rss"]["url"] = "https://example.test/feed.rss"
+
+    with pytest.raises(RuntimeError, match="Access Denied"):
+        civil_protection_rss.fetch(config)

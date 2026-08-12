@@ -17,6 +17,7 @@ polygon) and tries a handful of likely property name candidates.
 from __future__ import annotations
 
 import logging
+import xml.etree.ElementTree as ET
 from typing import Any
 
 from shapely.geometry import shape
@@ -25,6 +26,8 @@ from . import http
 from .errors import SourceSkipped
 
 logger = logging.getLogger(__name__)
+
+_OWS_NS = {"ows": "http://www.opengis.net/ows/1.1"}
 
 
 def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
@@ -48,9 +51,20 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
     }
 
     response = http.get(base_url, params=params)
+
+    # The WFS backend reports its own errors as an OGC ows:ExceptionReport
+    # body (seen returned with HTTP 400 during the 2026-08-10 EFFIS outage,
+    # but OWS services are also known to send these with a 200). Pull the
+    # real reason out before falling back to a generic HTTP status error, and
+    # check it ahead of raise_for_status() so a non-2xx status doesn't hide
+    # the more useful message.
+    body = response.text
+    exception_text = _extract_ows_exception(body)
+    if exception_text:
+        raise RuntimeError(f"EFFIS WFS service error: {exception_text}")
+
     response.raise_for_status()
 
-    body = response.text
     if body.lstrip().startswith("<"):
         raise RuntimeError(f"EFFIS WFS returned a non-JSON (likely error) response: {body[:300]}")
 
@@ -86,6 +100,17 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
         )
 
     return detections
+
+
+def _extract_ows_exception(body: str) -> str | None:
+    if not body.lstrip().startswith("<"):
+        return None
+    try:
+        root = ET.fromstring(body)
+    except ET.ParseError:
+        return None
+    texts = [el.text.strip() for el in root.findall(".//ows:ExceptionText", _OWS_NS) if el.text]
+    return "; ".join(texts) or None
 
 
 def _first_present(d: dict[str, Any], keys: list[str]) -> Any:

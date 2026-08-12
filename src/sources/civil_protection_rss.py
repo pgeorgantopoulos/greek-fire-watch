@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import feedparser
+import requests
 
 from . import http
 from .errors import SourceSkipped
@@ -36,7 +37,18 @@ def fetch(config: dict[str, Any]) -> list[dict[str, Any]]:
         # session pins an explicit UA rather than risk an opaque XML parse
         # failure caused by a block/challenge page instead of the feed.
         response = http.get(url)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as exc:
+            # raise_for_status() drops the response body, so a block/challenge
+            # page (WAF, geoblock, permission-denied) looks identical to any
+            # other 4xx/5xx in the logs. Keep a snippet so a future failure
+            # (e.g. this only reproduces from the GitHub Actions runner IP,
+            # not from a browser or this dev machine — confirmed 2026-08-12)
+            # can actually be told apart from a real config/URL problem.
+            snippet = response.text[:300].strip().replace("\n", " ")
+            detail = f" — response body: {snippet}" if snippet else ""
+            raise RuntimeError(f"Failed to fetch Civil Protection RSS ({exc}){detail}") from exc
         feed = feedparser.parse(response.content)
     else:
         feed = feedparser.parse(url)
