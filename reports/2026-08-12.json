@@ -1,0 +1,17 @@
+{
+  "date": "2026-08-12",
+  "generated_at": "2026-08-12T10:12:03.469761+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: 400 Client Error: Internal Server Error for url: https://ies-ows.jrc.ec.europa.eu/effis/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=ms%3Aercc.hs_24hrs_point&outputFormat=application%2Fjson&bbox=19.0%2C34.5%2C29.7%2C41.8%2CEPSG%3A4326",
+    "CivilProtectionRSS": "error: 403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss"
+  },
+  "summary": {
+    "total_detections": 0,
+    "by_source": {},
+    "top_regions": []
+  },
+  "detections": [],
+  "news": []
+}
