@@ -81,7 +81,7 @@ src/
 templates/
   report.html.j2             Main report page (today's data + history section)
   archive_index.html.j2      Archive listing page
-data/boundaries/             Offline boundaries GeoJSON for geocoding (see its README — currently a placeholder)
+data/boundaries/             Offline boundaries GeoJSON for geocoding + Greece-only filtering (see its README)
 reports/                     Daily report JSON archive (committed, append-only)
 docs/                        Generated static site (GitHub Pages source: main branch, /docs)
 tests/                       Unit tests: geocoding, RSS keyword filtering, chart geometry
@@ -146,13 +146,15 @@ If a source's endpoint is unreachable, unconfigured, or errors, it's skipped
 gracefully — the report records why per-source (see status states above)
 rather than failing the whole pipeline.
 
-### Boundaries data (for region names)
+### Boundaries data (for region names + Greece-only filtering)
 
-`data/boundaries/greece_regions.geojson` currently ships as a **placeholder**
-(a single box labeled "Greece (placeholder dataset...)") — every detection
-reverse-geocodes to that one label until it's replaced. See
-`data/boundaries/README.md` for real dataset sources and the exact format
-required.
+`data/boundaries/greece_regions.geojson` holds the 13 Greek administrative
+regions plus Mount Athos, used to label each detection's `region`.
+`data/boundaries/greece_country.geojson` is Greece's real national outline,
+used to drop FIRMS/EFFIS detections that fall inside the rectangular fetch
+bbox but outside Greece (neighboring countries, open sea). See
+`data/boundaries/README.md` for dataset provenance and how to go
+finer-grained (municipality level).
 
 ### Run locally
 
@@ -218,7 +220,6 @@ keeping whichever regeneration is actually correct/current (check
 - **No deduplication** between FIRMS and EFFIS detections of the same
   physical fire — they're listed separately, tagged by source. A single
   fire visible to both satellites would currently count twice in totals.
-- **Boundaries dataset is a placeholder** — see above.
 - **EFFIS's WFS endpoint is undocumented/unofficial and was down throughout
   development** — schema unverified, could break silently if EFFIS changes
   their internal API.
@@ -242,9 +243,8 @@ keeping whichever regeneration is actually correct/current (check
 ## TODOs / Roadmap
 
 **Data quality**
-- [ ] Replace `data/boundaries/greece_regions.geojson` placeholder with real
-  Greek administrative boundaries (region and/or municipality level) — see
-  `data/boundaries/README.md` for candidate sources and required format.
+- [ ] Optionally go finer-grained than region-level boundaries (municipality)
+  — see `data/boundaries/README.md` for candidate sources and required format.
 - [ ] Once EFFIS's WFS service is back up, verify `src/sources/effis.py`'s
   property-name guesses against a real response and fix any that are wrong.
 - [ ] Look for a genuine Civil Protection incident/announcement feed (vs.

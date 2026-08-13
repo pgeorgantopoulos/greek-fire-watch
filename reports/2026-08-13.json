@@ -14,8 +14,16 @@
     },
     "top_regions": [
       [
-        "Greece (placeholder dataset — replace with real regions/municipalities)",
-        6
+        "Epirus",
+        3
+      ],
+      [
+        "West Macedonia",
+        2
+      ],
+      [
+        "Central Greece",
+        1
       ]
     ]
   },
@@ -47,7 +55,7 @@
         "frp": "1.49",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "Central Greece"
     },
     {
       "source": "FIRMS",
@@ -76,7 +84,7 @@
         "frp": "1.3",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "Epirus"
     },
     {
       "source": "FIRMS",
@@ -105,7 +113,7 @@
         "frp": "3.61",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "Epirus"
     },
     {
       "source": "FIRMS",
@@ -134,7 +142,7 @@
         "frp": "1.48",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "Epirus"
     },
     {
       "source": "FIRMS",
@@ -163,7 +171,7 @@
         "frp": "2.2",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "West Macedonia"
     },
     {
       "source": "FIRMS",
@@ -192,7 +200,7 @@
         "frp": "2.2",
         "daynight": "N"
       },
-      "region": "Greece (placeholder dataset — replace with real regions/municipalities)"
+      "region": "West Macedonia"
     }
   ],
   "news": []

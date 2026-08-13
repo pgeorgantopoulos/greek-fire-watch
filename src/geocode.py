@@ -1,11 +1,11 @@
-"""Reverse-geocode lat/lon detections to a Greek region/municipality name
-using an offline GeoJSON boundaries dataset (point-in-polygon), and check
-whether a point actually falls inside Greece's national border.
+"""Reverse-geocode lat/lon detections to a Greek region name using an offline
+GeoJSON boundaries dataset (point-in-polygon), and check whether a point
+actually falls inside Greece's national border.
 
-See data/boundaries/README.md — the bundled greece_regions.geojson is a
-placeholder (a single polygon covering all of Greece) until a real
-regions/municipalities dataset is dropped in. greece_country.geojson is the
-real national outline, used only to filter detections down to Greece.
+See data/boundaries/README.md for dataset provenance. greece_regions.geojson
+holds the 13 Greek administrative regions plus Mount Athos;
+greece_country.geojson is the national outline, used only to filter
+detections down to Greece.
 """
 
 from __future__ import annotations
@@ -18,6 +18,14 @@ from typing import Any
 from shapely.geometry import Point, shape
 
 logger = logging.getLogger(__name__)
+
+# Degrees of buffer applied around loaded polygons (~3km at Greece's
+# latitude) to absorb coastline/border-precision noise in the boundary
+# datasets and in detection geolocation — without it, real coastal/harbor
+# or near-border points can land just outside the mapped edge and be
+# misclassified. Neighboring countries' mainlands are tens to hundreds of
+# km further out, so this margin doesn't risk misattributing those.
+_BUFFER_DEGREES = 0.03
 
 
 class Geocoder:
@@ -42,7 +50,7 @@ class Geocoder:
             if not geometry or not name:
                 continue
             try:
-                self._regions.append((shape(geometry), name))
+                self._regions.append((shape(geometry).buffer(_BUFFER_DEGREES), name))
             except Exception:
                 logger.warning("Skipping boundary feature with unparseable geometry: %s", properties)
 
@@ -75,14 +83,6 @@ class CountryBoundary:
     detection.
     """
 
-    # Degrees of buffer applied around the loaded polygons (~3km at Greece's
-    # latitude) to absorb coastline-precision noise in the boundary dataset
-    # and detection geolocation — without it, real coastal/harbor points can
-    # land just outside the mapped shoreline and be misclassified as foreign.
-    # Neighboring countries' mainland points are tens to hundreds of km away,
-    # so this margin doesn't risk admitting them.
-    BUFFER_DEGREES = 0.03
-
     def __init__(self, boundaries_path: Path):
         self._polygons: list[Any] = []
         self._load(boundaries_path)
@@ -100,7 +100,7 @@ class CountryBoundary:
             if not geometry:
                 continue
             try:
-                self._polygons.append(shape(geometry).buffer(self.BUFFER_DEGREES))
+                self._polygons.append(shape(geometry).buffer(_BUFFER_DEGREES))
             except Exception:
                 logger.warning("Skipping country boundary feature with unparseable geometry")
 

@@ -13,21 +13,24 @@ misclassified as foreign — neighboring countries' mainlands are tens to
 hundreds of km further out, so this doesn't risk admitting them. See
 `geocoding.country_boundary_file` in `config.yaml`.
 
-`greece_regions.geojson` is currently a **placeholder**: a single rectangular
-polygon covering the whole Greece bounding box, labeled accordingly. Every
-detection will reverse-geocode to that one label until this file is replaced
-with a real dataset.
+`greece_regions.geojson` holds the 13 Greek administrative regions
+("Περιφέρειες") plus Mount Athos (14 features). Source:
+[geoBoundaries](https://www.geoboundaries.org/) `GRC-ADM2`, CC BY 4.0
+(EuroGeoGraphics / data.humdata.org). The dataset's `shapeName` values are
+Greeklish transliterations (and one, "Anatolikis Makedonias kai Thr*", is
+truncated in the source itself) — `properties.name` on each feature has been
+rewritten to the standard English region name (e.g. "Attica", "Central
+Macedonia") so `geocoding.name_field: name` in `config.yaml` resolves
+cleanly. `Geocoder` (src/geocode.py) applies the same ~3km buffer as
+`CountryBoundary` to absorb border-precision noise between adjacent regions.
 
-To get proper region/municipality names, replace this file with a GeoJSON
+To go finer-grained (municipality level), replace this file with a GeoJSON
 `FeatureCollection` of polygons for Greece, for example:
 
-- Greek official administrative boundaries ("Καλλικράτης" regions/municipalities)
-  from [geodata.gov.gr](https://geodata.gov.gr/) (search for "Όρια Δήμων" / "Όρια
-  Περιφερειών").
-- [GADM](https://gadm.org/download_country.html) level-1 (regions) or level-2
-  (municipalities) boundaries for Greece.
-- [Natural Earth](https://www.naturalearthdata.com/) admin-1 states/provinces,
-  filtered to Greece (coarser, region-level only).
+- Greek official administrative boundaries ("Καλλικράτης" municipalities)
+  from [geodata.gov.gr](https://geodata.gov.gr/) (search for "Όρια Δήμων").
+- [geoBoundaries](https://www.geoboundaries.org/) `GRC-ADM3` (326 municipalities).
+- [GADM](https://gadm.org/download_country.html) level-2 boundaries for Greece.
 
 Requirements for the replacement file:
 
@@ -37,7 +40,3 @@ Requirements for the replacement file:
   `geocoding.name_field` in `config.yaml` (defaults to `name`) — rename a
   column/property or update the config to match whatever field the dataset
   uses (e.g. `NAME_1`, `shapeName`, `dimos_name`).
-
-If the dataset has two levels (region + municipality), you can either load
-two boundary files and extend `Geocoder` to look up both, or pick the
-granularity you want for v1 and keep it to one file.
