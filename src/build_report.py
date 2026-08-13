@@ -15,7 +15,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from .config import resolve_path
-from .geocode import Geocoder, build_geocoder
+from .geocode import build_country_boundary, build_geocoder
 from .sources import civil_protection_rss, effis, firms
 from .sources.errors import SourceSkipped
 
@@ -33,6 +33,7 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
     report_date = now.date().isoformat()
 
     geocoder = build_geocoder(config)
+    country = build_country_boundary(config)
 
     detections: list[dict[str, Any]] = []
     source_status: dict[str, str] = {}
@@ -43,6 +44,10 @@ def build(config: dict[str, Any]) -> dict[str, Any]:
             continue
         try:
             results = fetcher(config)
+            # The fetch bbox is a rectangle over Greece, so it also picks up
+            # slivers of neighboring countries and open sea — keep only
+            # points that actually fall inside Greece's border.
+            results = [r for r in results if country.contains(r["lat"], r["lon"])]
             for item in results:
                 item["region"] = geocoder.lookup(item["lat"], item["lon"])
             detections.extend(results)

@@ -64,6 +64,10 @@ geocoding:
   # Property key in the boundaries GeoJSON that holds the human-readable region/municipality name.
   name_field: name
   fallback_name: "Unknown region"
+  # Real Greece national outline, used to drop detections that fall inside the
+  # rectangular region.bbox above but outside Greece itself (neighboring
+  # countries, open sea). See data/boundaries/README.md.
+  country_boundary_file: data/boundaries/greece_country.geojson
 
 output:
   reports_dir: reports

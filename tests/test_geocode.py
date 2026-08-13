@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.geocode import Geocoder
+from src.geocode import CountryBoundary, Geocoder
 
 FIXTURE = Path(__file__).parent / "fixtures" / "sample_boundaries.geojson"
 
@@ -20,3 +20,20 @@ def test_missing_boundaries_file_falls_back_gracefully(tmp_path):
     missing = tmp_path / "does_not_exist.geojson"
     geocoder = Geocoder(missing, name_field="name", fallback_name="Unknown")
     assert geocoder.lookup(lat=0.5, lon=0.5) == "Unknown"
+
+
+def test_country_boundary_contains_point_inside():
+    boundary = CountryBoundary(FIXTURE)
+    assert boundary.contains(lat=0.5, lon=0.5) is True
+    assert boundary.contains(lat=0.5, lon=2.5) is True
+
+
+def test_country_boundary_excludes_point_outside():
+    boundary = CountryBoundary(FIXTURE)
+    assert boundary.contains(lat=10.0, lon=10.0) is False
+
+
+def test_country_boundary_missing_file_fails_open(tmp_path):
+    missing = tmp_path / "does_not_exist.geojson"
+    boundary = CountryBoundary(missing)
+    assert boundary.contains(lat=10.0, lon=10.0) is True
