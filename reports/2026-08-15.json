@@ -1,0 +1,17 @@
+{
+  "date": "2026-08-15",
+  "generated_at": "2026-08-15T09:22:47.800877+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS service error: msOracleSpatialLayerOpen(): OracleSpatial error. Cannot create OCI Handlers. Connection failure. Check your logs and the connection string.",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;1825c117&#46;1786774970&#46;21e76cbe <P>https&#58;&#47;&#47;"
+  },
+  "summary": {
+    "total_detections": 0,
+    "by_source": {},
+    "top_regions": []
+  },
+  "detections": [],
+  "news": []
+}
