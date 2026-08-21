@@ -1,0 +1,87 @@
+{
+  "date": "2026-08-21",
+  "generated_at": "2026-08-21T09:31:39.013586+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS service error: msOracleSpatialLayerOpen(): OracleSpatial error. Cannot create OCI Handlers. Connection failure. Check your logs and the connection string.",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;45721102&#46;1787293900&#46;2b0353cf <P>https&#58;&#47;&#47;"
+  },
+  "summary": {
+    "total_detections": 2,
+    "by_source": {
+      "FIRMS": 2
+    },
+    "top_regions": [
+      [
+        "Central Macedonia",
+        1
+      ],
+      [
+        "Central Greece",
+        1
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.69757,
+      "lon": 22.95122,
+      "acquired_at": "2026-08-21T01:43:00Z",
+      "confidence": "n",
+      "frp": 1.21,
+      "brightness": 302.55,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.69757",
+        "longitude": "22.95122",
+        "bright_ti4": "302.55",
+        "scan": "0.66",
+        "track": "0.73",
+        "acq_date": "2026-08-21",
+        "acq_time": "143",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "292.1",
+        "frp": "1.21",
+        "daynight": "N"
+      },
+      "region": "Central Macedonia"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 38.33076,
+      "lon": 23.30092,
+      "acquired_at": "2026-08-21T00:05:00Z",
+      "confidence": "n",
+      "frp": 1.32,
+      "brightness": 315.28,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "38.33076",
+        "longitude": "23.30092",
+        "bright_ti4": "315.28",
+        "scan": "0.4",
+        "track": "0.44",
+        "acq_date": "2026-08-21",
+        "acq_time": "5",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "292.23",
+        "frp": "1.32",
+        "daynight": "N"
+      },
+      "region": "Central Greece"
+    }
+  ],
+  "news": []
+}
