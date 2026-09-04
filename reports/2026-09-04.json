@@ -1,0 +1,87 @@
+{
+  "date": "2026-09-04",
+  "generated_at": "2026-09-04T13:14:40.475125+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS returned a non-JSON (likely error) response: <HTML>\n<HEAD><TITLE>MapServer Message</TITLE></HEAD>\n<!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;8b0f3417&#46;1788516882&#46;2bd7c544 <P>https&#58;&#47;&#47;"
+  },
+  "summary": {
+    "total_detections": 2,
+    "by_source": {
+      "FIRMS": 2
+    },
+    "top_regions": [
+      [
+        "Thessaly",
+        1
+      ],
+      [
+        "Central Macedonia",
+        1
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 39.35402,
+      "lon": 22.98538,
+      "acquired_at": "2026-09-04T00:43:00Z",
+      "confidence": "n",
+      "frp": 1.18,
+      "brightness": 309.29,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "39.35402",
+        "longitude": "22.98538",
+        "bright_ti4": "309.29",
+        "scan": "0.41",
+        "track": "0.37",
+        "acq_date": "2026-09-04",
+        "acq_time": "43",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "294.6",
+        "frp": "1.18",
+        "daynight": "N"
+      },
+      "region": "Thessaly"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.69825,
+      "lon": 22.95271,
+      "acquired_at": "2026-09-04T00:41:00Z",
+      "confidence": "n",
+      "frp": 0.5,
+      "brightness": 308.52,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.69825",
+        "longitude": "22.95271",
+        "bright_ti4": "308.52",
+        "scan": "0.4",
+        "track": "0.37",
+        "acq_date": "2026-09-04",
+        "acq_time": "41",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "291.88",
+        "frp": "0.5",
+        "daynight": "N"
+      },
+      "region": "Central Macedonia"
+    }
+  ],
+  "news": []
+}
