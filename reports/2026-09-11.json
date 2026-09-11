@@ -1,0 +1,178 @@
+{
+  "date": "2026-09-11",
+  "generated_at": "2026-09-11T13:18:57.316473+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS returned a non-JSON (likely error) response: <HTML>\n<HEAD><TITLE>MapServer Message</TITLE></HEAD>\n<!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;4d28f648&#46;1789121939&#46;3909a14 <P>https&#58;&#47;&#47;e"
+  },
+  "summary": {
+    "total_detections": 5,
+    "by_source": {
+      "FIRMS": 5
+    },
+    "top_regions": [
+      [
+        "Central Macedonia",
+        2
+      ],
+      [
+        "East Macedonia and Thrace",
+        2
+      ],
+      [
+        "Epirus",
+        1
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.69743,
+      "lon": 22.95113,
+      "acquired_at": "2026-09-11T01:52:00Z",
+      "confidence": "n",
+      "frp": 0.96,
+      "brightness": 300.32,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.69743",
+        "longitude": "22.95113",
+        "bright_ti4": "300.32",
+        "scan": "0.78",
+        "track": "0.78",
+        "acq_date": "2026-09-11",
+        "acq_time": "152",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "289.48",
+        "frp": "0.96",
+        "daynight": "N"
+      },
+      "region": "Central Macedonia"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.69937,
+      "lon": 22.95197,
+      "acquired_at": "2026-09-11T01:52:00Z",
+      "confidence": "n",
+      "frp": 0.58,
+      "brightness": 299.85,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.69937",
+        "longitude": "22.95197",
+        "bright_ti4": "299.85",
+        "scan": "0.78",
+        "track": "0.78",
+        "acq_date": "2026-09-11",
+        "acq_time": "152",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "289.3",
+        "frp": "0.58",
+        "daynight": "N"
+      },
+      "region": "Central Macedonia"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.02638,
+      "lon": 20.79286,
+      "acquired_at": "2026-09-11T00:11:00Z",
+      "confidence": "n",
+      "frp": 0.75,
+      "brightness": 299.75,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.02638",
+        "longitude": "20.79286",
+        "bright_ti4": "299.75",
+        "scan": "0.47",
+        "track": "0.47",
+        "acq_date": "2026-09-11",
+        "acq_time": "11",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "289.18",
+        "frp": "0.75",
+        "daynight": "N"
+      },
+      "region": "Epirus"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 41.11466,
+      "lon": 25.29422,
+      "acquired_at": "2026-09-11T00:09:00Z",
+      "confidence": "n",
+      "frp": 5.75,
+      "brightness": 327.75,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "41.11466",
+        "longitude": "25.29422",
+        "bright_ti4": "327.75",
+        "scan": "0.45",
+        "track": "0.39",
+        "acq_date": "2026-09-11",
+        "acq_time": "9",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "288.69",
+        "frp": "5.75",
+        "daynight": "N"
+      },
+      "region": "East Macedonia and Thrace"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 41.11823,
+      "lon": 25.29502,
+      "acquired_at": "2026-09-11T00:09:00Z",
+      "confidence": "n",
+      "frp": 5.75,
+      "brightness": 344.48,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "41.11823",
+        "longitude": "25.29502",
+        "bright_ti4": "344.48",
+        "scan": "0.45",
+        "track": "0.39",
+        "acq_date": "2026-09-11",
+        "acq_time": "9",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "291.29",
+        "frp": "5.75",
+        "daynight": "N"
+      },
+      "region": "East Macedonia and Thrace"
+    }
+  ],
+  "news": []
+}
