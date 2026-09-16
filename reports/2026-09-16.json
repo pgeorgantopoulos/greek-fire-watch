@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-16",
+  "generated_at": "2026-09-16T13:33:12.269949+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: HTTPSConnectionPool(host='ies-ows.jrc.ec.europa.eu', port=443): Max retries exceeded with url: /effis/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=ms%3Aercc.hs_24hrs_point&outputFormat=application%2Fjson&bbox=19.0%2C34.5%2C29.7%2C41.8%2CEPSG%3A4326 (Caused by ConnectTimeoutError(<HTTPSConnection(host='ies-ows.jrc.ec.europa.eu', port=443) at 0x7fcefeb04290>, 'Connection to ies-ows.jrc.ec.europa.eu timed out. (connect timeout=30)'))",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;25cfdb17&#46;1789554922&#46;4c65d04 <P>https&#58;&#47;&#47;e"
+  },
+  "summary": {
+    "total_detections": 0,
+    "by_source": {},
+    "top_regions": []
+  },
+  "detections": [],
+  "news": []
+}
