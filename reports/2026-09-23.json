@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-23",
+  "generated_at": "2026-09-23T13:31:41.221616+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS returned a non-JSON (likely error) response: <HTML>\n<HEAD><TITLE>MapServer Message</TITLE></HEAD>\n<!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;4f721102&#46;1790159503&#46;187ba815 <P>https&#58;&#47;&#47;"
+  },
+  "summary": {
+    "total_detections": 1,
+    "by_source": {
+      "FIRMS": 1
+    },
+    "top_regions": [
+      [
+        "Central Macedonia",
+        1
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 40.28586,
+      "lon": 23.44486,
+      "acquired_at": "2026-09-23T01:26:00Z",
+      "confidence": "n",
+      "frp": 0.95,
+      "brightness": 298.32,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "40.28586",
+        "longitude": "23.44486",
+        "bright_ti4": "298.32",
+        "scan": "0.42",
+        "track": "0.61",
+        "acq_date": "2026-09-23",
+        "acq_time": "126",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "283.76",
+        "frp": "0.95",
+        "daynight": "N"
+      },
+      "region": "Central Macedonia"
+    }
+  ],
+  "news": []
+}
