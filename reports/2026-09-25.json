@@ -1,0 +1,145 @@
+{
+  "date": "2026-09-25",
+  "generated_at": "2026-09-25T13:53:29.214453+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS returned a non-JSON (likely error) response: <HTML>\n<HEAD><TITLE>MapServer Message</TITLE></HEAD>\n<!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;95422417&#46;1790333613&#46;1737c3a0 <P>https&#58;&#47;&#47;"
+  },
+  "summary": {
+    "total_detections": 4,
+    "by_source": {
+      "FIRMS": 4
+    },
+    "top_regions": [
+      [
+        "Central Greece",
+        2
+      ],
+      [
+        "Thessaly",
+        2
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 38.12896,
+      "lon": 23.52609,
+      "acquired_at": "2026-09-25T00:50:00Z",
+      "confidence": "n",
+      "frp": 1.0,
+      "brightness": 300.7,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "38.12896",
+        "longitude": "23.52609",
+        "bright_ti4": "300.7",
+        "scan": "0.49",
+        "track": "0.4",
+        "acq_date": "2026-09-25",
+        "acq_time": "50",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "285.75",
+        "frp": "1",
+        "daynight": "N"
+      },
+      "region": "Central Greece"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 38.37476,
+      "lon": 24.06176,
+      "acquired_at": "2026-09-25T00:50:00Z",
+      "confidence": "n",
+      "frp": 1.39,
+      "brightness": 302.49,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "38.37476",
+        "longitude": "24.06176",
+        "bright_ti4": "302.49",
+        "scan": "0.51",
+        "track": "0.41",
+        "acq_date": "2026-09-25",
+        "acq_time": "50",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "286.29",
+        "frp": "1.39",
+        "daynight": "N"
+      },
+      "region": "Central Greece"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 39.16898,
+      "lon": 22.8395,
+      "acquired_at": "2026-09-25T00:50:00Z",
+      "confidence": "n",
+      "frp": 1.99,
+      "brightness": 313.66,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "39.16898",
+        "longitude": "22.8395",
+        "bright_ti4": "313.66",
+        "scan": "0.45",
+        "track": "0.39",
+        "acq_date": "2026-09-25",
+        "acq_time": "50",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "285.09",
+        "frp": "1.99",
+        "daynight": "N"
+      },
+      "region": "Thessaly"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 39.35386,
+      "lon": 22.98351,
+      "acquired_at": "2026-09-25T00:50:00Z",
+      "confidence": "n",
+      "frp": 0.83,
+      "brightness": 303.6,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "39.35386",
+        "longitude": "22.98351",
+        "bright_ti4": "303.6",
+        "scan": "0.45",
+        "track": "0.39",
+        "acq_date": "2026-09-25",
+        "acq_time": "50",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "288.87",
+        "frp": "0.83",
+        "daynight": "N"
+      },
+      "region": "Thessaly"
+    }
+  ],
+  "news": []
+}
