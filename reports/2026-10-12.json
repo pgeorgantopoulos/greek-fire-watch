@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-12",
+  "generated_at": "2026-10-12T17:00:06.937024+03:00",
+  "region": "Greece",
+  "source_status": {
+    "FIRMS": "ok",
+    "EFFIS": "error: EFFIS WFS returned a non-JSON (likely error) response: <HTML>\n<HEAD><TITLE>MapServer Message</TITLE></HEAD>\n<!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT",
+    "CivilProtectionRSS": "error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1>   You don't have permission to access \"http&#58;&#47;&#47;civilprotection&#46;gov&#46;gr&#47;cp&#95;hartes&#46;rss\" on this server.<P> Reference&#32;&#35;18&#46;c4172117&#46;1791813609&#46;9c6fee0 <P>https&#58;&#47;&#47;e"
+  },
+  "summary": {
+    "total_detections": 2,
+    "by_source": {
+      "FIRMS": 2
+    },
+    "top_regions": [
+      [
+        "Central Greece",
+        1
+      ],
+      [
+        "Thessaly",
+        1
+      ]
+    ]
+  },
+  "detections": [
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 38.12835,
+      "lon": 23.52373,
+      "acquired_at": "2026-10-12T00:33:00Z",
+      "confidence": "n",
+      "frp": 1.45,
+      "brightness": 315.19,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "38.12835",
+        "longitude": "23.52373",
+        "bright_ti4": "315.19",
+        "scan": "0.38",
+        "track": "0.36",
+        "acq_date": "2026-10-12",
+        "acq_time": "33",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "288.4",
+        "frp": "1.45",
+        "daynight": "N"
+      },
+      "region": "Central Greece"
+    },
+    {
+      "source": "FIRMS",
+      "sensor": "N",
+      "lat": 39.35337,
+      "lon": 22.98633,
+      "acquired_at": "2026-10-12T00:33:00Z",
+      "confidence": "n",
+      "frp": 0.98,
+      "brightness": 303.23,
+      "daynight": "N",
+      "map_link": null,
+      "raw": {
+        "latitude": "39.35337",
+        "longitude": "22.98633",
+        "bright_ti4": "303.23",
+        "scan": "0.39",
+        "track": "0.36",
+        "acq_date": "2026-10-12",
+        "acq_time": "33",
+        "satellite": "N",
+        "instrument": "VIIRS",
+        "confidence": "n",
+        "version": "2.0NRT",
+        "bright_ti5": "286.86",
+        "frp": "0.98",
+        "daynight": "N"
+      },
+      "region": "Thessaly"
+    }
+  ],
+  "news": []
+}
