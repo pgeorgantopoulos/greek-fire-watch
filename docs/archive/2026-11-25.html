@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greek Fire Watch — 2026-11-25</title>
+<style>
+  :root {
+    --bg: #f7f5f2;
+    --panel: #ffffff;
+    --border: #e2ddd6;
+    --text: #24211d;
+    --muted: #6b6459;
+    --accent: #c1440e;
+    --accent-soft: #fbe9e2;
+    --ok: #2e7d32;
+    --warn: #b8860b;
+    --err: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  header.page { margin-bottom: 1.5rem; }
+  header.page h1 { margin: 0 0 0.25rem; font-size: 1.75rem; }
+  header.page .meta { color: var(--muted); font-size: 0.9rem; }
+  header.page .meta a { color: var(--accent); text-decoration: none; }
+  header.page .meta a:hover { text-decoration: underline; }
+
+  .status-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem; }
+  .status-badge {
+    font-size: 0.78rem; padding: 0.2rem 0.6rem; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--muted);
+  }
+  .status-badge.ok { color: var(--ok); border-color: var(--ok); }
+  .status-badge.disabled { color: var(--muted); }
+  .status-badge.skipped { color: var(--warn); border-color: var(--warn); }
+  .status-badge.error { color: var(--err); border-color: var(--err); }
+
+  section { margin-bottom: 2.5rem; }
+  section h2 {
+    font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--muted); margin-bottom: 0.75rem;
+  }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem;
+  }
+  .card .num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .card .label { color: var(--muted); font-size: 0.85rem; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border-radius: 10px; overflow: hidden; }
+  table caption { text-align: left; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+  th, td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  th { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  tbody tr:hover { background: #faf7f4; }
+  .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+  .table-scroll table { border: none; border-radius: 0; }
+
+  .news-list { display: flex; flex-direction: column; gap: 0.9rem; }
+  .news-item {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1.1rem;
+  }
+  .news-item h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+  .news-item h3 a { color: var(--text); text-decoration: none; }
+  .news-item h3 a:hover { color: var(--accent); }
+  .news-item .date { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.35rem; }
+  .news-item p { margin: 0; font-size: 0.9rem; }
+
+  .empty { color: var(--muted); font-style: italic; padding: 0.75rem 0; }
+
+  .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem 0.5rem; }
+  .chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart-svg .gridline { stroke: var(--border); stroke-width: 1; }
+  .chart-svg .axis-label { fill: var(--muted); font-size: 10px; }
+  .chart-svg .area { fill: var(--accent); fill-opacity: 0.1; }
+  .chart-svg .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .chart-svg .dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; r: 4; }
+  .chart-svg .hit { fill: transparent; cursor: crosshair; }
+  .chart-svg .end-label { fill: var(--text); font-size: 11px; font-weight: 600; }
+  .chart-svg .crosshair { stroke: var(--muted); stroke-width: 1; opacity: 0; pointer-events: none; }
+  .chart-tooltip {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.1s;
+    background: var(--text); color: #fff; font-size: 0.78rem; padding: 0.35rem 0.55rem;
+    border-radius: 6px; white-space: nowrap; transform: translate(-50%, -110%);
+  }
+  .chart-tooltip .val { font-weight: 700; }
+  .chart-wrap { position: relative; }
+
+  details.table-view summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; margin: 0.5rem 0 0; }
+  details.table-view table { margin-top: 0.5rem; }
+
+  footer.page { border-top: 1px solid var(--border); padding-top: 1.25rem; color: var(--muted); font-size: 0.82rem; }
+  footer.page a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page">
+    <h1>🔥 Greek Fire Watch</h1>
+    <div class="meta">
+      Daily report for <strong>2026-11-25</strong> (Greece)
+      &middot; generated 2026-11-25T18:32:42.891824+02:00
+      &middot; <a href="../archive/index.html">archive</a>
+    </div>
+    <div class="status-row">
+      
+        
+        <span class="status-badge ok">
+          FIRMS: ok
+        </span>
+      
+        
+        <span class="status-badge error">
+          EFFIS: error: EFFIS WFS returned a non-JSON (likely error) response: &lt;HTML&gt;
+&lt;HEAD&gt;&lt;TITLE&gt;MapServer Message&lt;/TITLE&gt;&lt;/HEAD&gt;
+&lt;!-- MapServer version 7.6.2 OUTPUT=PNG OUTPUT=JPEG OUTPUT=KML SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=ICONV SUPPORTS=XMP SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT
+        </span>
+      
+        
+        <span class="status-badge error">
+          CivilProtectionRSS: error: Failed to fetch Civil Protection RSS (403 Client Error: Forbidden for url: https://civilprotection.gov.gr/cp_hartes.rss) — response body: &lt;HTML&gt;&lt;HEAD&gt; &lt;TITLE&gt;Access Denied&lt;/TITLE&gt; &lt;/HEAD&gt;&lt;BODY&gt; &lt;H1&gt;Access Denied&lt;/H1&gt;   You don&#39;t have permission to access &#34;http&amp;#58;&amp;#47;&amp;#47;civilprotection&amp;#46;gov&amp;#46;gr&amp;#47;cp&amp;#95;hartes&amp;#46;rss&#34; on this server.&lt;P&gt; Reference&amp;#32;&amp;#35;18&amp;#46;55fa0717&amp;#46;1795624364&amp;#46;6403db0a &lt;P&gt;https&amp;#58;&amp;#47;&amp;#47;
+        </span>
+      
+    </div>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="num">0</div>
+        <div class="label">Active fire detections</div>
+      </div>
+      
+      <div class="card">
+        <div class="num">0</div>
+        <div class="label">Civil Protection news items</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section>
+    <h2>History (all-time)</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="num">108</div>
+        <div class="label">Days tracked</div>
+      </div>
+      <div class="card">
+        <div class="num">286</div>
+        <div class="label">All-time detections</div>
+      </div>
+      <div class="card">
+        <div class="num">2.6</div>
+        <div class="label">Avg detections / day</div>
+      </div>
+    </div>
+
+    
+    <div class="chart-card" style="margin-top:1rem;">
+      <div class="chart-wrap">
+        <svg class="chart-svg" viewBox="0 0 640 220" id="trend-chart">
+          
+          <line class="gridline" x1="36" x2="628" y1="192.0" y2="192.0"></line>
+          <text class="axis-label" x="4" y="195.0">0</text>
+          
+          <line class="gridline" x1="36" x2="628" y1="148.0" y2="148.0"></line>
+          <text class="axis-label" x="4" y="151.0">25</text>
+          
+          <line class="gridline" x1="36" x2="628" y1="104.0" y2="104.0"></line>
+          <text class="axis-label" x="4" y="107.0">50</text>
+          
+          <line class="gridline" x1="36" x2="628" y1="60.0" y2="60.0"></line>
+          <text class="axis-label" x="4" y="63.0">75</text>
+          
+          <line class="gridline" x1="36" x2="628" y1="16.0" y2="16.0"></line>
+          <text class="axis-label" x="4" y="19.0">100</text>
+          
+          
+          <text class="axis-label" x="36.0" y="212" text-anchor="middle">08-10</text>
+          
+          <text class="axis-label" x="113.46" y="212" text-anchor="middle">08-24</text>
+          
+          <text class="axis-label" x="190.92" y="212" text-anchor="middle">09-07</text>
+          
+          <text class="axis-label" x="268.37" y="212" text-anchor="middle">09-21</text>
+          
+          <text class="axis-label" x="345.83" y="212" text-anchor="middle">10-05</text>
+          
+          <text class="axis-label" x="423.29" y="212" text-anchor="middle">10-19</text>
+          
+          <text class="axis-label" x="500.75" y="212" text-anchor="middle">11-02</text>
+          
+          <text class="axis-label" x="578.21" y="212" text-anchor="middle">11-16</text>
+          
+          <text class="axis-label" x="628.0" y="212" text-anchor="middle">11-25</text>
+          
+          <path class="area" d="M 36.0,100.48 L 41.53,192.0 L 47.07,151.52 L 52.6,181.44 L 58.13,192.0 L 63.66,192.0 L 69.2,153.28 L 74.73,192.0 L 80.26,190.24 L 85.79,188.48 L 91.33,188.48 L 96.86,188.48 L 102.39,186.72 L 107.93,179.68 L 113.46,183.2 L 118.99,183.2 L 124.52,188.48 L 130.06,188.48 L 135.59,190.24 L 141.12,188.48 L 146.65,190.24 L 152.19,183.2 L 157.72,192.0 L 163.25,186.72 L 168.79,183.2 L 174.32,188.48 L 179.85,192.0 L 185.38,169.12 L 190.92,156.8 L 196.45,192.0 L 201.98,184.96 L 207.51,192.0 L 213.05,183.2 L 218.58,186.72 L 224.11,190.24 L 229.64,188.48 L 235.18,190.24 L 240.71,192.0 L 246.24,188.48 L 251.78,184.96 L 257.31,186.72 L 262.84,192.0 L 268.37,184.96 L 273.91,190.24 L 279.44,190.24 L 284.97,192.0 L 290.5,184.96 L 296.04,192.0 L 301.57,192.0 L 307.1,192.0 L 312.64,192.0 L 318.17,192.0 L 323.7,190.24 L 329.23,186.72 L 334.77,186.72 L 340.3,183.2 L 345.83,176.16 L 351.36,170.88 L 356.9,184.96 L 362.43,192.0 L 367.96,188.48 L 373.5,192.0 L 379.03,186.72 L 384.56,188.48 L 390.09,192.0 L 395.63,192.0 L 401.16,192.0 L 406.69,190.24 L 412.22,192.0 L 417.76,192.0 L 423.29,184.96 L 428.82,188.48 L 434.36,188.48 L 439.89,192.0 L 445.42,183.2 L 450.95,186.72 L 456.49,192.0 L 462.02,192.0 L 467.55,192.0 L 473.08,192.0 L 478.62,190.24 L 484.15,192.0 L 489.68,192.0 L 495.21,192.0 L 500.75,186.72 L 506.28,192.0 L 511.81,192.0 L 517.35,192.0 L 522.88,192.0 L 528.41,192.0 L 533.94,192.0 L 539.48,192.0 L 545.01,192.0 L 550.54,192.0 L 556.07,192.0 L 561.61,192.0 L 567.14,192.0 L 572.67,192.0 L 578.21,192.0 L 583.74,192.0 L 589.27,192.0 L 594.8,192.0 L 600.34,192.0 L 605.87,192.0 L 611.4,192.0 L 616.93,192.0 L 622.47,192.0 L 628.0,192.0 L 628.0,192 L 36.0,192 Z"></path>
+          <path class="line" d="M 36.0,100.48 L 41.53,192.0 L 47.07,151.52 L 52.6,181.44 L 58.13,192.0 L 63.66,192.0 L 69.2,153.28 L 74.73,192.0 L 80.26,190.24 L 85.79,188.48 L 91.33,188.48 L 96.86,188.48 L 102.39,186.72 L 107.93,179.68 L 113.46,183.2 L 118.99,183.2 L 124.52,188.48 L 130.06,188.48 L 135.59,190.24 L 141.12,188.48 L 146.65,190.24 L 152.19,183.2 L 157.72,192.0 L 163.25,186.72 L 168.79,183.2 L 174.32,188.48 L 179.85,192.0 L 185.38,169.12 L 190.92,156.8 L 196.45,192.0 L 201.98,184.96 L 207.51,192.0 L 213.05,183.2 L 218.58,186.72 L 224.11,190.24 L 229.64,188.48 L 235.18,190.24 L 240.71,192.0 L 246.24,188.48 L 251.78,184.96 L 257.31,186.72 L 262.84,192.0 L 268.37,184.96 L 273.91,190.24 L 279.44,190.24 L 284.97,192.0 L 290.5,184.96 L 296.04,192.0 L 301.57,192.0 L 307.1,192.0 L 312.64,192.0 L 318.17,192.0 L 323.7,190.24 L 329.23,186.72 L 334.77,186.72 L 340.3,183.2 L 345.83,176.16 L 351.36,170.88 L 356.9,184.96 L 362.43,192.0 L 367.96,188.48 L 373.5,192.0 L 379.03,186.72 L 384.56,188.48 L 390.09,192.0 L 395.63,192.0 L 401.16,192.0 L 406.69,190.24 L 412.22,192.0 L 417.76,192.0 L 423.29,184.96 L 428.82,188.48 L 434.36,188.48 L 439.89,192.0 L 445.42,183.2 L 450.95,186.72 L 456.49,192.0 L 462.02,192.0 L 467.55,192.0 L 473.08,192.0 L 478.62,190.24 L 484.15,192.0 L 489.68,192.0 L 495.21,192.0 L 500.75,186.72 L 506.28,192.0 L 511.81,192.0 L 517.35,192.0 L 522.88,192.0 L 528.41,192.0 L 533.94,192.0 L 539.48,192.0 L 545.01,192.0 L 550.54,192.0 L 556.07,192.0 L 561.61,192.0 L 567.14,192.0 L 572.67,192.0 L 578.21,192.0 L 583.74,192.0 L 589.27,192.0 L 594.8,192.0 L 600.34,192.0 L 605.87,192.0 L 611.4,192.0 L 616.93,192.0 L 622.47,192.0 L 628.0,192.0"></path>
+          
+          <text class="end-label" x="622.0" y="182.0" text-anchor="end">0</text>
+          
+          <circle class="dot" cx="36.0" cy="100.48"></circle>
+          <circle class="hit" cx="36.0" cy="100.48" r="14" data-date="2026-08-10" data-total="52" tabindex="0"></circle>
+          
+          <circle class="dot" cx="41.53" cy="192.0"></circle>
+          <circle class="hit" cx="41.53" cy="192.0" r="14" data-date="2026-08-11" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="47.07" cy="151.52"></circle>
+          <circle class="hit" cx="47.07" cy="151.52" r="14" data-date="2026-08-12" data-total="23" tabindex="0"></circle>
+          
+          <circle class="dot" cx="52.6" cy="181.44"></circle>
+          <circle class="hit" cx="52.6" cy="181.44" r="14" data-date="2026-08-13" data-total="6" tabindex="0"></circle>
+          
+          <circle class="dot" cx="58.13" cy="192.0"></circle>
+          <circle class="hit" cx="58.13" cy="192.0" r="14" data-date="2026-08-14" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="63.66" cy="192.0"></circle>
+          <circle class="hit" cx="63.66" cy="192.0" r="14" data-date="2026-08-15" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="69.2" cy="153.28"></circle>
+          <circle class="hit" cx="69.2" cy="153.28" r="14" data-date="2026-08-16" data-total="22" tabindex="0"></circle>
+          
+          <circle class="dot" cx="74.73" cy="192.0"></circle>
+          <circle class="hit" cx="74.73" cy="192.0" r="14" data-date="2026-08-17" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="80.26" cy="190.24"></circle>
+          <circle class="hit" cx="80.26" cy="190.24" r="14" data-date="2026-08-18" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="85.79" cy="188.48"></circle>
+          <circle class="hit" cx="85.79" cy="188.48" r="14" data-date="2026-08-19" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="91.33" cy="188.48"></circle>
+          <circle class="hit" cx="91.33" cy="188.48" r="14" data-date="2026-08-20" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="96.86" cy="188.48"></circle>
+          <circle class="hit" cx="96.86" cy="188.48" r="14" data-date="2026-08-21" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="102.39" cy="186.72"></circle>
+          <circle class="hit" cx="102.39" cy="186.72" r="14" data-date="2026-08-22" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="107.93" cy="179.68"></circle>
+          <circle class="hit" cx="107.93" cy="179.68" r="14" data-date="2026-08-23" data-total="7" tabindex="0"></circle>
+          
+          <circle class="dot" cx="113.46" cy="183.2"></circle>
+          <circle class="hit" cx="113.46" cy="183.2" r="14" data-date="2026-08-24" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="118.99" cy="183.2"></circle>
+          <circle class="hit" cx="118.99" cy="183.2" r="14" data-date="2026-08-25" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="124.52" cy="188.48"></circle>
+          <circle class="hit" cx="124.52" cy="188.48" r="14" data-date="2026-08-26" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="130.06" cy="188.48"></circle>
+          <circle class="hit" cx="130.06" cy="188.48" r="14" data-date="2026-08-27" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="135.59" cy="190.24"></circle>
+          <circle class="hit" cx="135.59" cy="190.24" r="14" data-date="2026-08-28" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="141.12" cy="188.48"></circle>
+          <circle class="hit" cx="141.12" cy="188.48" r="14" data-date="2026-08-29" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="146.65" cy="190.24"></circle>
+          <circle class="hit" cx="146.65" cy="190.24" r="14" data-date="2026-08-30" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="152.19" cy="183.2"></circle>
+          <circle class="hit" cx="152.19" cy="183.2" r="14" data-date="2026-08-31" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="157.72" cy="192.0"></circle>
+          <circle class="hit" cx="157.72" cy="192.0" r="14" data-date="2026-09-01" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="163.25" cy="186.72"></circle>
+          <circle class="hit" cx="163.25" cy="186.72" r="14" data-date="2026-09-02" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="168.79" cy="183.2"></circle>
+          <circle class="hit" cx="168.79" cy="183.2" r="14" data-date="2026-09-03" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="174.32" cy="188.48"></circle>
+          <circle class="hit" cx="174.32" cy="188.48" r="14" data-date="2026-09-04" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="179.85" cy="192.0"></circle>
+          <circle class="hit" cx="179.85" cy="192.0" r="14" data-date="2026-09-05" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="185.38" cy="169.12"></circle>
+          <circle class="hit" cx="185.38" cy="169.12" r="14" data-date="2026-09-06" data-total="13" tabindex="0"></circle>
+          
+          <circle class="dot" cx="190.92" cy="156.8"></circle>
+          <circle class="hit" cx="190.92" cy="156.8" r="14" data-date="2026-09-07" data-total="20" tabindex="0"></circle>
+          
+          <circle class="dot" cx="196.45" cy="192.0"></circle>
+          <circle class="hit" cx="196.45" cy="192.0" r="14" data-date="2026-09-08" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="201.98" cy="184.96"></circle>
+          <circle class="hit" cx="201.98" cy="184.96" r="14" data-date="2026-09-09" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="207.51" cy="192.0"></circle>
+          <circle class="hit" cx="207.51" cy="192.0" r="14" data-date="2026-09-10" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="213.05" cy="183.2"></circle>
+          <circle class="hit" cx="213.05" cy="183.2" r="14" data-date="2026-09-11" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="218.58" cy="186.72"></circle>
+          <circle class="hit" cx="218.58" cy="186.72" r="14" data-date="2026-09-12" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="224.11" cy="190.24"></circle>
+          <circle class="hit" cx="224.11" cy="190.24" r="14" data-date="2026-09-13" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="229.64" cy="188.48"></circle>
+          <circle class="hit" cx="229.64" cy="188.48" r="14" data-date="2026-09-14" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="235.18" cy="190.24"></circle>
+          <circle class="hit" cx="235.18" cy="190.24" r="14" data-date="2026-09-15" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="240.71" cy="192.0"></circle>
+          <circle class="hit" cx="240.71" cy="192.0" r="14" data-date="2026-09-16" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="246.24" cy="188.48"></circle>
+          <circle class="hit" cx="246.24" cy="188.48" r="14" data-date="2026-09-17" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="251.78" cy="184.96"></circle>
+          <circle class="hit" cx="251.78" cy="184.96" r="14" data-date="2026-09-18" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="257.31" cy="186.72"></circle>
+          <circle class="hit" cx="257.31" cy="186.72" r="14" data-date="2026-09-19" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="262.84" cy="192.0"></circle>
+          <circle class="hit" cx="262.84" cy="192.0" r="14" data-date="2026-09-20" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="268.37" cy="184.96"></circle>
+          <circle class="hit" cx="268.37" cy="184.96" r="14" data-date="2026-09-21" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="273.91" cy="190.24"></circle>
+          <circle class="hit" cx="273.91" cy="190.24" r="14" data-date="2026-09-22" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="279.44" cy="190.24"></circle>
+          <circle class="hit" cx="279.44" cy="190.24" r="14" data-date="2026-09-23" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="284.97" cy="192.0"></circle>
+          <circle class="hit" cx="284.97" cy="192.0" r="14" data-date="2026-09-24" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="290.5" cy="184.96"></circle>
+          <circle class="hit" cx="290.5" cy="184.96" r="14" data-date="2026-09-25" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="296.04" cy="192.0"></circle>
+          <circle class="hit" cx="296.04" cy="192.0" r="14" data-date="2026-09-26" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="301.57" cy="192.0"></circle>
+          <circle class="hit" cx="301.57" cy="192.0" r="14" data-date="2026-09-27" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="307.1" cy="192.0"></circle>
+          <circle class="hit" cx="307.1" cy="192.0" r="14" data-date="2026-09-28" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="312.64" cy="192.0"></circle>
+          <circle class="hit" cx="312.64" cy="192.0" r="14" data-date="2026-09-29" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="318.17" cy="192.0"></circle>
+          <circle class="hit" cx="318.17" cy="192.0" r="14" data-date="2026-09-30" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="323.7" cy="190.24"></circle>
+          <circle class="hit" cx="323.7" cy="190.24" r="14" data-date="2026-10-01" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="329.23" cy="186.72"></circle>
+          <circle class="hit" cx="329.23" cy="186.72" r="14" data-date="2026-10-02" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="334.77" cy="186.72"></circle>
+          <circle class="hit" cx="334.77" cy="186.72" r="14" data-date="2026-10-03" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="340.3" cy="183.2"></circle>
+          <circle class="hit" cx="340.3" cy="183.2" r="14" data-date="2026-10-04" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="345.83" cy="176.16"></circle>
+          <circle class="hit" cx="345.83" cy="176.16" r="14" data-date="2026-10-05" data-total="9" tabindex="0"></circle>
+          
+          <circle class="dot" cx="351.36" cy="170.88"></circle>
+          <circle class="hit" cx="351.36" cy="170.88" r="14" data-date="2026-10-06" data-total="12" tabindex="0"></circle>
+          
+          <circle class="dot" cx="356.9" cy="184.96"></circle>
+          <circle class="hit" cx="356.9" cy="184.96" r="14" data-date="2026-10-07" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="362.43" cy="192.0"></circle>
+          <circle class="hit" cx="362.43" cy="192.0" r="14" data-date="2026-10-08" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="367.96" cy="188.48"></circle>
+          <circle class="hit" cx="367.96" cy="188.48" r="14" data-date="2026-10-09" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="373.5" cy="192.0"></circle>
+          <circle class="hit" cx="373.5" cy="192.0" r="14" data-date="2026-10-10" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="379.03" cy="186.72"></circle>
+          <circle class="hit" cx="379.03" cy="186.72" r="14" data-date="2026-10-11" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="384.56" cy="188.48"></circle>
+          <circle class="hit" cx="384.56" cy="188.48" r="14" data-date="2026-10-12" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="390.09" cy="192.0"></circle>
+          <circle class="hit" cx="390.09" cy="192.0" r="14" data-date="2026-10-13" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="395.63" cy="192.0"></circle>
+          <circle class="hit" cx="395.63" cy="192.0" r="14" data-date="2026-10-14" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="401.16" cy="192.0"></circle>
+          <circle class="hit" cx="401.16" cy="192.0" r="14" data-date="2026-10-15" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="406.69" cy="190.24"></circle>
+          <circle class="hit" cx="406.69" cy="190.24" r="14" data-date="2026-10-16" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="412.22" cy="192.0"></circle>
+          <circle class="hit" cx="412.22" cy="192.0" r="14" data-date="2026-10-17" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="417.76" cy="192.0"></circle>
+          <circle class="hit" cx="417.76" cy="192.0" r="14" data-date="2026-10-18" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="423.29" cy="184.96"></circle>
+          <circle class="hit" cx="423.29" cy="184.96" r="14" data-date="2026-10-19" data-total="4" tabindex="0"></circle>
+          
+          <circle class="dot" cx="428.82" cy="188.48"></circle>
+          <circle class="hit" cx="428.82" cy="188.48" r="14" data-date="2026-10-20" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="434.36" cy="188.48"></circle>
+          <circle class="hit" cx="434.36" cy="188.48" r="14" data-date="2026-10-21" data-total="2" tabindex="0"></circle>
+          
+          <circle class="dot" cx="439.89" cy="192.0"></circle>
+          <circle class="hit" cx="439.89" cy="192.0" r="14" data-date="2026-10-22" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="445.42" cy="183.2"></circle>
+          <circle class="hit" cx="445.42" cy="183.2" r="14" data-date="2026-10-23" data-total="5" tabindex="0"></circle>
+          
+          <circle class="dot" cx="450.95" cy="186.72"></circle>
+          <circle class="hit" cx="450.95" cy="186.72" r="14" data-date="2026-10-24" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="456.49" cy="192.0"></circle>
+          <circle class="hit" cx="456.49" cy="192.0" r="14" data-date="2026-10-25" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="462.02" cy="192.0"></circle>
+          <circle class="hit" cx="462.02" cy="192.0" r="14" data-date="2026-10-26" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="467.55" cy="192.0"></circle>
+          <circle class="hit" cx="467.55" cy="192.0" r="14" data-date="2026-10-27" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="473.08" cy="192.0"></circle>
+          <circle class="hit" cx="473.08" cy="192.0" r="14" data-date="2026-10-28" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="478.62" cy="190.24"></circle>
+          <circle class="hit" cx="478.62" cy="190.24" r="14" data-date="2026-10-29" data-total="1" tabindex="0"></circle>
+          
+          <circle class="dot" cx="484.15" cy="192.0"></circle>
+          <circle class="hit" cx="484.15" cy="192.0" r="14" data-date="2026-10-30" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="489.68" cy="192.0"></circle>
+          <circle class="hit" cx="489.68" cy="192.0" r="14" data-date="2026-10-31" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="495.21" cy="192.0"></circle>
+          <circle class="hit" cx="495.21" cy="192.0" r="14" data-date="2026-11-01" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="500.75" cy="186.72"></circle>
+          <circle class="hit" cx="500.75" cy="186.72" r="14" data-date="2026-11-02" data-total="3" tabindex="0"></circle>
+          
+          <circle class="dot" cx="506.28" cy="192.0"></circle>
+          <circle class="hit" cx="506.28" cy="192.0" r="14" data-date="2026-11-03" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="511.81" cy="192.0"></circle>
+          <circle class="hit" cx="511.81" cy="192.0" r="14" data-date="2026-11-04" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="517.35" cy="192.0"></circle>
+          <circle class="hit" cx="517.35" cy="192.0" r="14" data-date="2026-11-05" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="522.88" cy="192.0"></circle>
+          <circle class="hit" cx="522.88" cy="192.0" r="14" data-date="2026-11-06" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="528.41" cy="192.0"></circle>
+          <circle class="hit" cx="528.41" cy="192.0" r="14" data-date="2026-11-07" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="533.94" cy="192.0"></circle>
+          <circle class="hit" cx="533.94" cy="192.0" r="14" data-date="2026-11-08" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="539.48" cy="192.0"></circle>
+          <circle class="hit" cx="539.48" cy="192.0" r="14" data-date="2026-11-09" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="545.01" cy="192.0"></circle>
+          <circle class="hit" cx="545.01" cy="192.0" r="14" data-date="2026-11-10" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="550.54" cy="192.0"></circle>
+          <circle class="hit" cx="550.54" cy="192.0" r="14" data-date="2026-11-11" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="556.07" cy="192.0"></circle>
+          <circle class="hit" cx="556.07" cy="192.0" r="14" data-date="2026-11-12" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="561.61" cy="192.0"></circle>
+          <circle class="hit" cx="561.61" cy="192.0" r="14" data-date="2026-11-13" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="567.14" cy="192.0"></circle>
+          <circle class="hit" cx="567.14" cy="192.0" r="14" data-date="2026-11-14" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="572.67" cy="192.0"></circle>
+          <circle class="hit" cx="572.67" cy="192.0" r="14" data-date="2026-11-15" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="578.21" cy="192.0"></circle>
+          <circle class="hit" cx="578.21" cy="192.0" r="14" data-date="2026-11-16" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="583.74" cy="192.0"></circle>
+          <circle class="hit" cx="583.74" cy="192.0" r="14" data-date="2026-11-17" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="589.27" cy="192.0"></circle>
+          <circle class="hit" cx="589.27" cy="192.0" r="14" data-date="2026-11-18" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="594.8" cy="192.0"></circle>
+          <circle class="hit" cx="594.8" cy="192.0" r="14" data-date="2026-11-19" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="600.34" cy="192.0"></circle>
+          <circle class="hit" cx="600.34" cy="192.0" r="14" data-date="2026-11-20" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="605.87" cy="192.0"></circle>
+          <circle class="hit" cx="605.87" cy="192.0" r="14" data-date="2026-11-21" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="611.4" cy="192.0"></circle>
+          <circle class="hit" cx="611.4" cy="192.0" r="14" data-date="2026-11-22" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="616.93" cy="192.0"></circle>
+          <circle class="hit" cx="616.93" cy="192.0" r="14" data-date="2026-11-23" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="622.47" cy="192.0"></circle>
+          <circle class="hit" cx="622.47" cy="192.0" r="14" data-date="2026-11-24" data-total="0" tabindex="0"></circle>
+          
+          <circle class="dot" cx="628.0" cy="192.0"></circle>
+          <circle class="hit" cx="628.0" cy="192.0" r="14" data-date="2026-11-25" data-total="0" tabindex="0"></circle>
+          
+          <line class="crosshair" id="trend-crosshair" y1="16" y2="192"></line>
+        </svg>
+        <div class="chart-tooltip" id="trend-tooltip"><span class="val"></span> on <span class="date"></span></div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var svg = document.getElementById('trend-chart');
+        var tooltip = document.getElementById('trend-tooltip');
+        var crosshair = document.getElementById('trend-crosshair');
+        var valEl = tooltip.querySelector('.val');
+        var dateEl = tooltip.querySelector('.date');
+        var chartWidth = 640;
+
+        function show(e) {
+          var hit = e.currentTarget;
+          var cx = hit.getAttribute('cx');
+          var cy = hit.getAttribute('cy');
+          var total = hit.getAttribute('data-total');
+          var date = hit.getAttribute('data-date');
+          valEl.textContent = total + (total === '1' ? ' detection' : ' detections');
+          dateEl.textContent = date;
+          crosshair.setAttribute('x1', cx);
+          crosshair.setAttribute('x2', cx);
+          crosshair.style.opacity = 1;
+          var rect = svg.getBoundingClientRect();
+          var scale = rect.width / chartWidth;
+          tooltip.style.left = (cx * scale) + 'px';
+          tooltip.style.top = (cy * scale) + 'px';
+          tooltip.style.opacity = 1;
+        }
+        function hide() {
+          crosshair.style.opacity = 0;
+          tooltip.style.opacity = 0;
+        }
+        svg.querySelectorAll('.hit').forEach(function (hit) {
+          hit.addEventListener('pointerenter', show);
+          hit.addEventListener('focus', show);
+          hit.addEventListener('pointerleave', hide);
+          hit.addEventListener('blur', hide);
+        });
+      })();
+    </script>
+    
+
+    
+    <p style="margin-top:1rem; color: var(--muted); font-size: 0.9rem;">
+      All-time most affected: Greece (placeholder dataset — replace with real regions/municipalities) (75), Central Greece (52), Central Macedonia (52), Epirus (43), Thessaly (28), East Macedonia and Thrace (14), West Macedonia (9), Attica (5), Peloponnese (4), South Aegean (2)
+    </p>
+    
+
+    <details class="table-view">
+      <summary>View daily totals as a table</summary>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Total detections</th><th>By source</th><th>News items</th></tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><a href="../archive/2026-11-25.html">2026-11-25</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-24.html">2026-11-24</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-23.html">2026-11-23</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-22.html">2026-11-22</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-21.html">2026-11-21</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-20.html">2026-11-20</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-19.html">2026-11-19</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-18.html">2026-11-18</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-17.html">2026-11-17</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-16.html">2026-11-16</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-15.html">2026-11-15</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-14.html">2026-11-14</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-13.html">2026-11-13</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-12.html">2026-11-12</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-11.html">2026-11-11</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-10.html">2026-11-10</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-09.html">2026-11-09</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-08.html">2026-11-08</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-07.html">2026-11-07</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-06.html">2026-11-06</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-05.html">2026-11-05</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-04.html">2026-11-04</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-03.html">2026-11-03</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-02.html">2026-11-02</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-11-01.html">2026-11-01</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-31.html">2026-10-31</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-30.html">2026-10-30</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-29.html">2026-10-29</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-28.html">2026-10-28</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-27.html">2026-10-27</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-26.html">2026-10-26</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-25.html">2026-10-25</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-24.html">2026-10-24</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-23.html">2026-10-23</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-22.html">2026-10-22</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-21.html">2026-10-21</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-20.html">2026-10-20</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-19.html">2026-10-19</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-18.html">2026-10-18</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-17.html">2026-10-17</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-16.html">2026-10-16</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-15.html">2026-10-15</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-14.html">2026-10-14</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-13.html">2026-10-13</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-12.html">2026-10-12</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-11.html">2026-10-11</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-10.html">2026-10-10</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-09.html">2026-10-09</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-08.html">2026-10-08</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-07.html">2026-10-07</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-06.html">2026-10-06</a></td>
+              <td>12</td>
+              <td>FIRMS: 12</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-05.html">2026-10-05</a></td>
+              <td>9</td>
+              <td>FIRMS: 9</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-04.html">2026-10-04</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-03.html">2026-10-03</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-02.html">2026-10-02</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-10-01.html">2026-10-01</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-30.html">2026-09-30</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-29.html">2026-09-29</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-28.html">2026-09-28</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-27.html">2026-09-27</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-26.html">2026-09-26</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-25.html">2026-09-25</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-24.html">2026-09-24</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-23.html">2026-09-23</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-22.html">2026-09-22</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-21.html">2026-09-21</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-20.html">2026-09-20</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-19.html">2026-09-19</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-18.html">2026-09-18</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-17.html">2026-09-17</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-16.html">2026-09-16</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-15.html">2026-09-15</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-14.html">2026-09-14</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-13.html">2026-09-13</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-12.html">2026-09-12</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-11.html">2026-09-11</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-10.html">2026-09-10</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-09.html">2026-09-09</a></td>
+              <td>4</td>
+              <td>FIRMS: 4</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-08.html">2026-09-08</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-07.html">2026-09-07</a></td>
+              <td>20</td>
+              <td>FIRMS: 20</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-06.html">2026-09-06</a></td>
+              <td>13</td>
+              <td>FIRMS: 13</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-05.html">2026-09-05</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-04.html">2026-09-04</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-03.html">2026-09-03</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-02.html">2026-09-02</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-09-01.html">2026-09-01</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-31.html">2026-08-31</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-30.html">2026-08-30</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-29.html">2026-08-29</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-28.html">2026-08-28</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-27.html">2026-08-27</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-26.html">2026-08-26</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-25.html">2026-08-25</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-24.html">2026-08-24</a></td>
+              <td>5</td>
+              <td>FIRMS: 5</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-23.html">2026-08-23</a></td>
+              <td>7</td>
+              <td>FIRMS: 7</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-22.html">2026-08-22</a></td>
+              <td>3</td>
+              <td>FIRMS: 3</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-21.html">2026-08-21</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-20.html">2026-08-20</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-19.html">2026-08-19</a></td>
+              <td>2</td>
+              <td>FIRMS: 2</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-18.html">2026-08-18</a></td>
+              <td>1</td>
+              <td>FIRMS: 1</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-17.html">2026-08-17</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-16.html">2026-08-16</a></td>
+              <td>22</td>
+              <td>FIRMS: 22</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-15.html">2026-08-15</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-14.html">2026-08-14</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-13.html">2026-08-13</a></td>
+              <td>6</td>
+              <td>FIRMS: 6</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-12.html">2026-08-12</a></td>
+              <td>23</td>
+              <td>FIRMS: 23</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-11.html">2026-08-11</a></td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td><a href="../archive/2026-08-10.html">2026-08-10</a></td>
+              <td>52</td>
+              <td>FIRMS: 52</td>
+              <td>10</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Active fire detections</h2>
+    
+    <p class="empty">No active fire detections reported for this run.</p>
+    
+  </section>
+
+  <section>
+    <h2>Civil Protection news</h2>
+    
+    <p class="empty">No matching Civil Protection announcements for this run.</p>
+    
+  </section>
+
+  <footer class="page">
+    <p>
+      Data sources: <a href="https://firms.modaps.eosdis.gov/" target="_blank" rel="noopener">NASA FIRMS</a>,
+      <a href="https://effis.jrc.ec.europa.eu/" target="_blank" rel="noopener">EFFIS</a>,
+      Greek Civil Protection RSS. See project README for attribution details and known limitations.
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
